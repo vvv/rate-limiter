@@ -21,10 +21,6 @@
 //! assert_eq!(n, 2);
 //! # }
 //! ```
-//!
-//! For advanced use cases consider using [governor] library instead.
-//!
-//! [governor]: https://lib.rs/crates/governor
 
 use std::time::{Duration, Instant};
 
