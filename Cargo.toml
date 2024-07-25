@@ -1,0 +1,12 @@
+[package]
+name = "ratelim"
+description = "Simplistic rate limiter"
+version = "0.1.0"
+authors = ["Valeriy V. Vorotyntsev <valery.vv@gmail.com>"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/vvv/rate-limiter"
+keywords = ["rate", "limiter", "ratelimit", "ratelimiter", "throttling"]
+categories = ["date-and-time"]
+
+[dependencies]
