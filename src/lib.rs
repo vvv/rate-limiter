@@ -3,8 +3,8 @@
 //! # Examples
 //!
 //! ```
-//! # use std::{thread, time::Duration};
 //! # use ratelim::RateLimiter;
+//! # use std::{thread, time::Duration};
 //! #
 //! # fn main() {
 //! // We don't want to overwater plants. Twice a second should be fine?
@@ -99,5 +99,40 @@ impl RateLimiter {
             self.start.replace(now);
             Ok(())
         }
+    }
+}
+
+/// A timer that calls a function on drop with the elapsed time.
+#[derive(Debug, Clone, PartialOrd, Ord, PartialEq, Eq)]
+pub struct Timer {
+    started: Instant,
+    on_drop: fn(Duration),
+}
+
+impl Timer {
+    /// Starts the timer, specifying the function to call on drop.
+    ///
+    /// Example:
+    ///
+    /// ```
+    /// use ratelim::Timer;
+    /// use std::{thread, time::Duration};
+    ///
+    /// {
+    ///     let _t = Timer::start(|elapsed| eprintln!("elapsed {elapsed:?}"));
+    ///     thread::sleep(Duration::from_millis(10));
+    /// }
+    /// ```
+    pub fn start(on_drop: fn(Duration)) -> Self {
+        Self {
+            started: Instant::now(),
+            on_drop,
+        }
+    }
+}
+
+impl Drop for Timer {
+    fn drop(&mut self) {
+        (self.on_drop)(self.started.elapsed());
     }
 }
