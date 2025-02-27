@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 
-use ratelim::RateLimiter;
+use ratelim::{RateLimiter, Timer};
 
 #[test]
 fn test_runner() {
@@ -24,4 +24,10 @@ fn test_runner() {
     assert!(lim.try_run(|| unreachable!()).is_err());
 
     let _ = lim.clone();
+}
+
+#[test]
+fn test_timer() {
+    let _t = Timer::start(|elapsed| eprintln!("slept for {elapsed:?}"));
+    thread::sleep(Duration::from_millis(10));
 }

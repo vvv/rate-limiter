@@ -119,7 +119,7 @@ impl Timer {
     /// use std::{thread, time::Duration};
     ///
     /// {
-    ///     let _t = Timer::start(|elapsed| eprintln!("elapsed {elapsed:?}"));
+    ///     let _t = Timer::start(|elapsed| eprintln!("slept for {elapsed:?}"));
     ///     thread::sleep(Duration::from_millis(10));
     /// }
     /// ```
