@@ -30,4 +30,9 @@ fn test_runner() {
 fn test_timer() {
     let _t = Timer::start(|elapsed| eprintln!("slept for {elapsed:?}"));
     thread::sleep(Duration::from_millis(10));
+
+    // Ensure that the API works not only with fn pointers, but also with closures.
+    let mut n = 0;
+    let _ = Timer::start(|_elapsed| n += 1);
+    assert_eq!(n, 1);
 }

@@ -104,12 +104,12 @@ impl RateLimiter {
 
 /// A timer that calls a function on drop with the elapsed time.
 #[derive(Debug, Clone, PartialOrd, Ord, PartialEq, Eq)]
-pub struct Timer {
+pub struct Timer<F: FnMut(Duration)> {
     started: Instant,
-    on_drop: fn(Duration),
+    on_drop: F,
 }
 
-impl Timer {
+impl<F: FnMut(Duration)> Timer<F> {
     /// Starts the timer, specifying the function to call on drop.
     ///
     /// Example:
@@ -123,7 +123,7 @@ impl Timer {
     ///     thread::sleep(Duration::from_millis(10));
     /// }
     /// ```
-    pub fn start(on_drop: fn(Duration)) -> Self {
+    pub fn start(on_drop: F) -> Self {
         Self {
             started: Instant::now(),
             on_drop,
@@ -131,7 +131,7 @@ impl Timer {
     }
 }
 
-impl Drop for Timer {
+impl<F: FnMut(Duration)> Drop for Timer<F> {
     fn drop(&mut self) {
         (self.on_drop)(self.started.elapsed());
     }
