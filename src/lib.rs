@@ -65,6 +65,25 @@ impl RateLimiter {
         self.try_run(f).ok();
     }
 
+    /// Runs the function if the cooldown period has elapsed,
+    /// passing the elapsed time since the last run.
+    ///
+    /// The first call [starts] the `RateLimiter` without running the function.
+    ///
+    /// [starts]: Self::start_now
+    pub fn run_dt(&mut self, f: impl FnOnce(Duration)) {
+        let Some(start) = self.start else {
+            self.start_now();
+            return;
+        };
+        let now = Instant::now();
+        let elapsed = now - start;
+        if elapsed >= self.cooldown {
+            f(elapsed);
+            self.start.replace(now);
+        }
+    }
+
     /// Runs the function if the cooldown period has elapsed.
     /// Otherwise errs with the time remaining.
     ///

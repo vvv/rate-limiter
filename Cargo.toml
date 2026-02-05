@@ -1,7 +1,7 @@
 [package]
 name = "ratelim"
 description = "Simplistic rate limiter"
-version = "0.2.2"
+version = "0.3.0"
 authors = ["Valeriy V. Vorotyntsev <valery.vv@gmail.com>"]
 edition = "2021"
 license = "MIT"
