@@ -47,11 +47,6 @@ impl RateLimiter {
         }
     }
 
-    /// Returns the cooldown period.
-    pub fn cooldown_period(&self) -> Duration {
-        self.cooldown
-    }
-
     /// (Re)starts the cooldown period.
     /// Returns the previous start time if any.
     pub fn start_now(&mut self) -> Option<Instant> {
@@ -118,6 +113,16 @@ impl RateLimiter {
             self.start.replace(now);
             Ok(())
         }
+    }
+
+    /// Returns the start time of the current cooldown period, if any.
+    pub fn get_start(&self) -> Option<Instant> {
+        self.start
+    }
+
+    /// Returns the cooldown period.
+    pub fn cooldown_period(&self) -> Duration {
+        self.cooldown
     }
 }
 
